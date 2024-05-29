@@ -349,7 +349,7 @@ if __get_boolean("PAPERLESS_ENABLE_COMPRESSION", "yes"):  # pragma: no cover
 ROOT_URLCONF = "paperless.urls"
 
 
-def _parse_base_paths() -> tuple[str, str, str, str, str]:
+def _parse_base_paths() -> tuple[Optional[str], str, str, str, str]:
     script_name = os.getenv("PAPERLESS_FORCE_SCRIPT_NAME")
     base_url = (script_name or "") + "/"
     login_url = base_url + "accounts/login/"

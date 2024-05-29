@@ -150,12 +150,6 @@ RUN set -eux \
   && echo "Installing supervisor" \
     && python3 -m pip install --default-timeout=1000 --upgrade --no-cache-dir supervisor==4.2.5
 
-# Copy gunicorn config
-# Changes very infrequently
-WORKDIR /usr/src/paperless/
-
-COPY gunicorn.conf.py .
-
 # setup docker-specific things
 # These change sometimes, but rarely
 WORKDIR /usr/src/paperless/src/docker/
@@ -171,6 +165,7 @@ COPY [ \
   "docker/management_script.sh", \
   "docker/flower-conditional.sh", \
   "docker/install_management_commands.sh", \
+  "docker/webserver.py", \
   "/usr/src/paperless/src/docker/" \
 ]
 
@@ -193,6 +188,7 @@ RUN set -eux \
     && chmod 755 /usr/local/bin/paperless_cmd.sh \
     && mv flower-conditional.sh /usr/local/bin/flower-conditional.sh \
     && chmod 755 /usr/local/bin/flower-conditional.sh \
+    && mv webserver.py /usr/local/bin/webserver.py \
   && echo "Installing management commands" \
     && chmod +x install_management_commands.sh \
     && ./install_management_commands.sh
