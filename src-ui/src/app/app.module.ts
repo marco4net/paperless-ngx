@@ -7,7 +7,11 @@ import {
   NgbDateParserFormatter,
   NgbModule,
 } from '@ng-bootstrap/ng-bootstrap'
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
+import {
+  HTTP_INTERCEPTORS,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http'
 import { DocumentListComponent } from './components/document-list/document-list.component'
 import { DocumentDetailComponent } from './components/document-detail/document-detail.component'
 import { DashboardComponent } from './components/dashboard/dashboard.component'
@@ -498,11 +502,11 @@ function initializeApp(settings: SettingsService) {
     HotkeyDialogComponent,
     DeletePagesConfirmDialogComponent,
   ],
+  bootstrap: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule,
-    HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     PdfViewerModule,
@@ -541,7 +545,7 @@ function initializeApp(settings: SettingsService) {
     DirtyDocGuard,
     DirtySavedViewGuard,
     UsernamePipe,
+    provideHttpClient(withInterceptorsFromDi()),
   ],
-  bootstrap: [AppComponent],
 })
 export class AppModule {}
